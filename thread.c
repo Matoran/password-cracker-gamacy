@@ -38,10 +38,15 @@ void createThreads(const char *hash, int numberThreads){
 			fprintf(stderr, "pthread_create failed!\n");
 		}
 	}
+	if (pthread_join(threads[0], NULL) != 0) {
+        perror("pthread_join");
+    }
 	for (int i = 0; i < numberThreads; i++) {
-		if (pthread_join(threads[i], NULL) != 0) {
-			perror("pthread_join");
-		}
+        int code = pthread_cancel(threads[i]);
+        if (code == ESRCH)
+            printf("cancel: thread already finished!\n");
+        else if (code != 0)
+            error("cancel: pthread_cancel FAILED");
 		free(paramsThread[i].password);
 	}
 }
@@ -65,23 +70,18 @@ void *thread(void *paramsThread) {
     unsigned long long int i = params->idThread+1;
     while(1){
         char *password = jumpToAlphabet(i, params->password);
-        printf("password = %s\n", password);
+        //printf("password = %s\n", password);
         char* hash = crypt_r(password, params->salt, &cryptData);
         if(strcmp(hash, params->hash) == 0){
             /*printf("hashed = %s number thread = %d\n", hash, params->idThread);
             printf("if\n");*/
-            for(int numberThread = 0; numberThread < params->numberThreads; numberThread++){
-                //printf("for\n");
-                if(pthread_equal(params->threads[numberThread], params->threads[params->idThread]) == 0){
-                    //printf("ifif %d %d\n", numberThread, params->idThread);
-                    int code = pthread_cancel(params->threads[numberThread]);
-                    if (code == ESRCH)
-                        printf("cancel: thread already finished!\n");
-                    else if (code != 0)
-                        error("cancel: pthread_cancel FAILED");
-                }
-            }
             printf("password = %s\n", password);
+            int code = pthread_cancel(params->threads[0]);
+            if (code == ESRCH)
+                printf("cancel: thread already finished!\n");
+            else if (code != 0)
+                error("cancel: pthread_cancel FAILED");
+
             return NULL;
         }
         //printf("hashed = %s number thread = %d\n", hash, params->idThread);
