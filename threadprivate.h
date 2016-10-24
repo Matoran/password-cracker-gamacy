@@ -1,17 +1,23 @@
 #ifndef THREADPRIVATE_H
 #define THREADPRIVATE_H
 
-typedef struct structThread{
+//
+typedef struct threadSt{
 	int numberMaxThread;
 	int idThread;
-	char* password;
-	int valCode;
-}structThread;
 
-typedef struct structParamsFunctionThread{
-	int numberMaxThread;
+	int valCode;
+}threadSt;
+
+
+//params to thread function
+typedef struct paramsSt{
+	int numberThreads;
 	int idThread;
-}structParamsFunctionThread;
+	char hash[14];
+	char salt[3];
+	pthread_t *threads;
+}paramsSt;
 
 void *thread(void *paramsThread);
 

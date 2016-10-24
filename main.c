@@ -1,24 +1,25 @@
+#define _GNU_SOURCE
+#include <crypt.h>
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
-#include <stdbool.h>
 #include "thread.h"
 #include "string.h"
 
 int main(int argc, char const *argv[]){
 	struct timespec start, finish;
 	clock_gettime(CLOCK_MONOTONIC, &start);
-	// code a compléter
+
 	if(argc != 3){
-            printf("usage: ./crack [hash] [number of threads]")
+        printf("usage: ./crack [hash] [number of threads]");
         return EXIT_FAILURE;
 	}
+	struct crypt_data cryptData;
+    cryptData.initialized = 0;
+
+    //printf("hashed = %s\n", crypt_r("0", "42", &cryptData));
+
 	createThreads(argv[1], atoi(argv[2]));
-	// code a compléter
-	//createThreads(10);
-	printf("%s\n",jumpToAlphabet(12,65));
-	//printf("%s\n",inverseString("salut"));
 
 	clock_gettime(CLOCK_MONOTONIC, &finish);
 	double elapsed = finish.tv_sec - start.tv_sec;

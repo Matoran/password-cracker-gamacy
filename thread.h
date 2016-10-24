@@ -1,7 +1,7 @@
 #ifndef THREAD_H
 #define THREAD_H
 
-void createThreads(char *hash, int numberThread);
+void createThreads(const char *hash, int numberThread);
 
 #endif
 
