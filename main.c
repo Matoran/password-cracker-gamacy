@@ -17,7 +17,7 @@ int main(int argc, char const *argv[]){
 	struct crypt_data cryptData;
     cryptData.initialized = 0;
 
-    //printf("hashed = %s\n", crypt_r("0", "42", &cryptData));
+    printf("hashed = %s\n", crypt_r("0", "42", &cryptData));
 
 	createThreads(argv[1], atoi(argv[2]));
 

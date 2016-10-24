@@ -63,6 +63,7 @@ void *thread(void *paramsThread) {
     unsigned long long int i = params->idThread+1;
     while(1){
         char *password = jumpToAlphabet(i, params->password);
+        printf("password = %s\n", password);
         char* hash = crypt_r(password, params->salt, &cryptData);
         if(strcmp(hash, params->hash) == 0){
             /*printf("hashed = %s number thread = %d\n", hash, params->idThread);
