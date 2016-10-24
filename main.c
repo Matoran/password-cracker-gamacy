@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <stdbool.h>
 #include "thread.h"
+#include "string.h"
 
 int main(int argc, char const *argv[])
 {
@@ -11,7 +12,9 @@ int main(int argc, char const *argv[])
 	clock_gettime(CLOCK_MONOTONIC, &start);
 
 	// code a compléter
-	createThreads(10);
+	//createThreads(10);
+	printf("%s\n",jumpToAlphabet(12,65));
+	//printf("%s\n",inverseString("salut"));
 
 	clock_gettime(CLOCK_MONOTONIC, &finish);
 	double elapsed = finish.tv_sec - start.tv_sec;
