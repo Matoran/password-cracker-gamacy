@@ -62,7 +62,7 @@ void *thread(void *paramsThread) {
     cryptData.initialized = 0;
     unsigned long long int i = params->idThread+1;
     while(1){
-        char *password = jumpToAlphabet(i, 65);
+        char *password = jumpToAlphabet(i, params->password);
         char* hash = crypt_r(password, params->salt, &cryptData);
         if(strcmp(hash, params->hash) == 0){
             /*printf("hashed = %s number thread = %d\n", hash, params->idThread);
@@ -79,12 +79,10 @@ void *thread(void *paramsThread) {
                 }
             }
             printf("password = %s\n", password);
-            free(password);
             return NULL;
         }
         //printf("hashed = %s number thread = %d\n", hash, params->idThread);
         i += params->numberThreads;
-        free(password);
     }
 
 }
