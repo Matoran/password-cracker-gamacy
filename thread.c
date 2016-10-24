@@ -62,7 +62,8 @@ void *thread(void *paramsThread) {
     cryptData.initialized = 0;
     unsigned long long int i = params->idThread+1;
     while(1){
-        char* hash = crypt_r(jumpToAlphabet(i, 65), params->salt, &cryptData);
+        char *password = jumpToAlphabet(i, 65);
+        char* hash = crypt_r(password, params->salt, &cryptData);
         if(strcmp(hash, params->hash) == 0){
             /*printf("hashed = %s number thread = %d\n", hash, params->idThread);
             printf("if\n");*/
@@ -77,12 +78,13 @@ void *thread(void *paramsThread) {
                         error("cancel: pthread_cancel FAILED");
                 }
             }
-            printf("password = %s\n", jumpToAlphabet(i, 65));
+            printf("password = %s\n", password);
+            free(password);
             return NULL;
         }
         //printf("hashed = %s number thread = %d\n", hash, params->idThread);
         i += params->numberThreads;
-
+        free(password);
     }
 
 }
