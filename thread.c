@@ -32,6 +32,7 @@ void createThreads(const char *hash, int numberThreads){
 		strncpy(paramsThread[i].salt, hash, 2);
 		paramsThread[i].salt[2] = '\0';
 		paramsThread[i].threads = threads;
+		paramsThread[i].password = malloc(sizeof(char)*20);
 		int code = pthread_create(&threads[i], NULL, thread, &paramsThread[i]);
 		if (code != 0) {
 			fprintf(stderr, "pthread_create failed!\n");
@@ -41,6 +42,7 @@ void createThreads(const char *hash, int numberThreads){
 		if (pthread_join(threads[i], NULL) != 0) {
 			perror("pthread_join");
 		}
+		free(paramsThread[i].password);
 	}
 }
 

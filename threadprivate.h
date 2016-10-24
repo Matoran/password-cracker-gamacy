@@ -16,7 +16,7 @@ typedef struct paramsSt{
 	int idThread;
 	char hash[14];
 	char salt[3];
-	char password[20];
+	char *password;
 	pthread_t *threads;
 }paramsSt;
 
