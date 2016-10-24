@@ -1,7 +1,7 @@
 # Variables Definition
 version = gcc -std=gnu99
 flags = -c -g 
-clean = rm -rf *.o
+clean = rm -rf *.o main
 
 # Main compilation
 main : main.o thread.o string.o
