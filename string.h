@@ -1,8 +1,8 @@
 #ifndef STRING_H
 #define STRING_H
-typedef struct Alphabet{
-	char[] letters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ~!*";
-} Alphabet;
+#define ALPHABET "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ~!*"
 
-char[] nextString(char[] actualString);    
+char* jumpToAlphabet(unsigned long long int nb, int nbAlphabet);
+char* inverseString(char* string);
+    
 #endif
