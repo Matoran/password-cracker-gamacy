@@ -1,11 +1,11 @@
 # Variables Definition
 version = gcc -std=gnu99
 flags = -c -g 
-clean = rm -rf *.o main
+clean = rm -rf *.o crack
 
 # Main compilation
-main : main.o thread.o string.o
-	$(version) main.o thread.o string.o -o main -lrt -lpthread
+crack : main.o thread.o string.o
+	$(version) main.o thread.o string.o -o crack -lrt -lpthread
 main.o : main.c 
 	$(version) -c main.c $(flags) -lrt
 
