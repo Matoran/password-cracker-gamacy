@@ -32,6 +32,10 @@ void createThreads(int numberThread){
 
 void *thread(void *paramsThread) {
 	structThread strThread;
-	strThread.idThread = ((structParamsFunctionThread*)paramsThread)->idThread;
-	strThread.numberMaxThread = ((structParamsFunctionThread*)paramsThread)->numberMaxThread; 
+	//cast *
+	structParamsFunctionThread* params = (structParamsFunctionThread*)paramsThread;
+	//printf("%d\n", params->idThread);
+	strThread.idThread = params->idThread;
+	//printf("%d\n", params->numberMaxThread);
+	strThread.numberMaxThread = params->numberMaxThread; 
 }

@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdbool.h>
+#include "thread.h"
 
 int main(int argc, char const *argv[])
 {
@@ -10,11 +11,12 @@ int main(int argc, char const *argv[])
 	clock_gettime(CLOCK_MONOTONIC, &start);
 
 	// code a compléter
+	createThreads(10);
 
 	clock_gettime(CLOCK_MONOTONIC, &finish);
 	double elapsed = finish.tv_sec - start.tv_sec;
 	elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
-	printf("Time to find : %d s\n", elapsed);
+	printf("Time to find : %f s\n", elapsed);
 	
 	return 0;
 }
