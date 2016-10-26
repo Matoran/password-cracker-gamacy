@@ -1,3 +1,10 @@
+/*
+ * Authors: LOPES Marco, ISELI Cyril and RINGOT Gaëtan
+ * Purpose: Management of strings with specify Alphabet.
+ * Language:  C
+ * Year : 2016-2017
+ */
+
 #include "string.h"
 #include <string.h>
 #include <stdlib.h>
@@ -6,6 +13,16 @@
 
 }*/
 
+/*
+ * Function: jumpToAlphabet
+ * ----------------------------
+ *   Returns the final string
+ *
+ *   nb: the value need to be evaluated 
+ *   result: the string result.
+ *
+ *   returns: the string with the value inside. 
+ */
 char* jumpToAlphabet(unsigned long long int nb, char *result){
 	//char letters[] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ~!*";
 	//char letters[] = "01";
@@ -35,6 +52,16 @@ char* jumpToAlphabet(unsigned long long int nb, char *result){
     }
 }
 
+
+/*
+ * Function: inverseString
+ * ----------------------------
+ *   Returns the string.
+ *
+ *   string: 
+ *
+ *   returns: 
+ */
 char* inverseString(char* string){
 	int length = strlen(string);
 	char tmpChar;

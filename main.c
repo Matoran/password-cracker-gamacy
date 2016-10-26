@@ -1,3 +1,10 @@
+/*
+ * Authors: LOPES Marco, ISELI Cyril and RINGOT Gaëtan
+ * Purpose: Password cracker.
+ * Language:  C
+ * Year : 2016-2017
+ */
+
 #define _GNU_SOURCE
 #include <crypt.h>
 #include <pthread.h>
@@ -6,6 +13,16 @@
 #include "thread.h"
 #include "string.h"
 
+/*
+ * Function: main
+ * ----------------------------
+ *   Print the password, and the time elapsed to find it
+ *
+ *   argc: argument counter
+ *   argv: table of arguments
+ *
+ *   returns: EXIT_FAILURE or 0. 
+ */
 int main(int argc, char const *argv[]){
 	struct timespec start, finish;
 	clock_gettime(CLOCK_MONOTONIC, &start);

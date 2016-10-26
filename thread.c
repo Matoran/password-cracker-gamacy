@@ -1,9 +1,9 @@
-/*********************
-asdasdasd
-asdasda
-sdasdasd
-asdasd
-*********************/
+/*
+ * Authors: LOPES Marco, ISELI Cyril and RINGOT Gaëtan
+ * Purpose: Management of threads.
+ * Language:  C
+ * Year : 2016-2017
+ */
 #define _GNU_SOURCE
 #include <crypt.h>
 #include <pthread.h>
@@ -15,12 +15,29 @@ asdasd
 #include "thread.h"
 #include "threadprivate.h"
 
+/*
+ * Function: error
+ * ----------------------------
+ *   Print an error message
+ *
+ *   msg: error to print 
+ *  
+ */
 void error(char *msg) {
     printf("%s\n", msg);
     exit(EXIT_FAILURE);
 }
 
 
+/*
+ * Function: createThreads
+ * ----------------------------
+ *   Generate a number of thread
+ *
+ *   hash: hash to decode
+ *   numberThreads: number of thread to decode.
+ *
+ */
 void createThreads(const char *hash, int numberThreads){
 	pthread_t threads[numberThreads];
 	paramsSt paramsThread[numberThreads];
@@ -51,6 +68,15 @@ void createThreads(const char *hash, int numberThreads){
 	}
 }
 
+
+/*
+ * Function: thread
+ * ----------------------------
+ *   Tasks of a single thread
+ *
+ *   paramsThread: 
+ *
+ */
 void *thread(void *paramsThread) {
     int old_state, old_type;
     pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, &old_state);
