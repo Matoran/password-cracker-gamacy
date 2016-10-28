@@ -1,7 +1,7 @@
 # Variables Definition
 version = gcc -std=gnu99
-flags = -c -g 
-clean = rm -rf *.o crack
+flags = -g -Wall -Wextra
+clean = rm -rf *.o crack hash
 
 # Main compilation
 crack : main.o thread.o string.o
@@ -19,3 +19,6 @@ thread.o : thread.c thread.h  threadprivate.h
 # Clean part
 clean:
 	$(clean)
+
+hash : hash.c
+	$(version) hash.c $(flags) -o hash -lcrypt
