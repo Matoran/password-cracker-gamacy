@@ -56,10 +56,15 @@ void createThreads(const char *hash, int numberThreads) {
             fprintf(stderr, "pthread_create failed!\n");
         }
     }
-    for (int i = 0; i < numberThreads; i++) {
-        if (pthread_join(threads[i], NULL) != 0) {
-            perror("pthread_join");
-        }
+    if (pthread_join(threads[0], NULL) != 0) {
+        perror("pthread_join");
+    }
+    for (int i = 1; i < numberThreads; i++) {
+        int code = pthread_cancel(threads[i]);
+        if (code == ESRCH)
+            printf("cancel: thread already finished!\n");
+        else if (code != 0)
+            error("cancel: pthread_cancel FAILED");
     }
 }
 
@@ -86,15 +91,12 @@ void *thread(void *paramsThread) {
         char *password = jumpToAlphabet(i, params->password);
         char *hash = crypt_r(password, params->salt, &cryptData);
         if (strcmp(hash, params->hash) == 0) {
-
-            for (int numberThread = 0; numberThread < params->numberThreads; numberThread++) {
-                if (numberThread != params->idThread) {
-                    int code = pthread_cancel(params->threads[numberThread]);
-                    if (code == ESRCH)
-                        printf("cancel: thread already finished!\n");
-                    else if (code != 0)
-                        error("cancel: pthread_cancel FAILED");
-                }
+            if (params->idThread != 0) {
+                int code = pthread_cancel(params->threads[0]);
+                if (code == ESRCH)
+                    printf("cancel: thread already finished!\n");
+                else if (code != 0)
+                    error("cancel: pthread_cancel FAILED");
             }
             printf("password = %s\n", password);
             return NULL;
