@@ -6,6 +6,7 @@
  */
 
 #define _GNU_SOURCE
+
 #include <crypt.h>
 #include <pthread.h>
 #include <errno.h>
