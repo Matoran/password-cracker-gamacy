@@ -23,32 +23,23 @@
  *   returns: the string with the value inside. 
  */
 char *jumpToAlphabet(unsigned long long int nb, char *result) {
-    //char letters[] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ~!*";
-    //char letters[] = "01";
     unsigned long long int integerDivision = nb;
     unsigned long long int mod = 0;
-    unsigned long long int counter = 0;
-    while (1) {
+    int counter = 0;
+    while (integerDivision != 0) {
         mod = integerDivision % LENGTH_ALPHABET;
         integerDivision /= LENGTH_ALPHABET;
-
         if (mod == 0) {
             mod = LENGTH_ALPHABET;
             integerDivision--;
-        }
-
-        if (integerDivision == 0) {
-            //printf("%d\n",mod);
-            result[counter] = ALPHABET[mod - 1];
-            result[counter + 1] = '\0';
-            result = inverseString(result);
-
-            return result;
         }
         //printf("%d\n",mod);
         result[counter] = ALPHABET[mod - 1];
         counter++;
     }
+    result[counter] = '\0';
+    result = inverseString(result);
+    return result;
 }
 
 
@@ -72,3 +63,29 @@ char *inverseString(char *string) {
     }
     return string;
 }
+
+int searchLetterInAlphabet(char character) {
+    for (int i = 0; i < LENGTH_ALPHABET; ++i) {
+        if (ALPHABET[i] == character)
+            return i;
+    }
+    return -1;
+}
+
+char *jumpToAlphabetRelative(unsigned int jump, char *actualString) {
+    int index = 0;
+    int length = strlen(actualString);
+    inverseString(actualString);
+    while (jump != 0) {
+        int positionAlphabet = searchLetterInAlphabet(actualString[index]);
+        int mod = (positionAlphabet + jump) % LENGTH_ALPHABET;
+        jump = (positionAlphabet + jump) / LENGTH_ALPHABET;
+        actualString[index] = ALPHABET[mod];
+        index++;
+    }
+    actualString[index > length ? index : length] = '\0';
+
+    return inverseString(actualString);
+}
+
+
