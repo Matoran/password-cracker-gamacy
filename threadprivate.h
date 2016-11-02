@@ -1,7 +1,7 @@
 #ifndef THREADPRIVATE_H
 #define THREADPRIVATE_H
 
-#define LENGTH_MAX 3
+#define LENGTH_MAX 8
 #define LENGTH_HASH 13
 #define LENGTH_SALT 2
 

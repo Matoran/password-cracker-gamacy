@@ -9,7 +9,8 @@ set(SOURCE_FILES
         string.h
         thread.c
         thread.h
-        threadprivate.h)
+        threadprivate.h
+        stringprivate.h)
 
 add_executable(crack ${SOURCE_FILES})
 
@@ -20,6 +21,8 @@ add_executable(hash ${SOURCE_FILES})
 
 set(SOURCE_FILES
         stringtest.c
-        string.c)
+        string.c
+        string.h
+        stringprivate.h)
 
 add_executable(stringtest ${SOURCE_FILES})

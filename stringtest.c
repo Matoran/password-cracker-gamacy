@@ -22,10 +22,10 @@
 int main(int argc, char const *argv[]) {
     char *string = malloc(sizeof(char) * 20);
     char *string2 = malloc(sizeof(char) * 20);
-    for (unsigned int i = 0; i < 10000; ++i) {
-        string[0] = 'A';
+    for (unsigned int i = 0; i < 1000; ++i) {
+        string[0] = '0';
         string[1] = '\0';
-        string2[0] = 'A';
+        string2[0] = '0';
         string2[1] = '\0';
         if(strcmp(jumpToAlphabetRelative(i, string), jumpToAlphabet(i+1, string2)) != 0){
             printf("error");

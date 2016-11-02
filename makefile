@@ -20,5 +20,10 @@ thread.o : thread.c thread.h  threadprivate.h
 clean:
 	$(clean)
 
+# Hash compilation
 hash : hash.c
 	$(version) hash.c $(flags) -o hash -lcrypt
+
+# string test compilation
+stringtest : string.o stringtest.c
+	$(version) stringtest.c string.o $(flags) -o stringtest
