@@ -21,6 +21,9 @@
  *   returns: EXIT_FAILURE or EXIT_SUCCESS.
  */
 int main(int argc, char const *argv[]) {
+    for (int i = 0; i < 10; ++i) {
+
+
     struct timespec start, finish;
     clock_gettime(CLOCK_MONOTONIC, &start);
 
@@ -28,12 +31,19 @@ int main(int argc, char const *argv[]) {
         printf("usage: ./crack [hash] [number of threads]\n");
         return EXIT_FAILURE;
     }
+    if (atoi(argv[2]) <= 0) {
+        printf("usage: ./crack [hash] [min number of threads: 1]\n");
+        return EXIT_FAILURE;
+    }
     createThreads(argv[1], atoi(argv[2]));
 
     clock_gettime(CLOCK_MONOTONIC, &finish);
     double elapsed = finish.tv_sec - start.tv_sec;
     elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
-    printf("Time to find : %f s\n", elapsed);
+    //printf("Executed time: %f s\n", elapsed);
+    printf("%f\n", elapsed);
+    }
+
 
     return EXIT_SUCCESS;
 }

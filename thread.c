@@ -18,20 +18,6 @@
 #include "threadprivate.h"
 
 /*
- * Function: error
- * ----------------------------
- *   Print an error message
- *
- *   msg: error to print 
- *  
- */
-void error(char *msg) {
-    printf("%s\n", msg);
-    exit(EXIT_FAILURE);
-}
-
-
-/*
  * Function: createThreads
  * ----------------------------
  *   Generate a number of thread
@@ -51,20 +37,20 @@ void createThreads(const char *hash, int numberThreads) {
         paramsThread[i].hash[13] = '\0';
         strncpy(paramsThread[i].salt, hash, 2);
         paramsThread[i].salt[2] = '\0';
-        paramsThread[i].threads = threads;
         paramsThread[i].found = &found;
         int code = pthread_create(&threads[i], NULL, thread, &paramsThread[i]);
         if (code != 0) {
             fprintf(stderr, "pthread_create failed!\n");
         }
     }
-    
     for (int i = 0; i < numberThreads; i++) {
         if (pthread_join(threads[i], NULL) != 0) 
         {
             perror("pthread_join");
         }
     }
+    if(!found)
+        printf("No match found\n");
 }
 
 
@@ -86,11 +72,11 @@ void *thread(void *paramsThread) {
         char *password = jumpToAlphabet(i, params->password);
         char *hash = crypt_r(password, params->salt, &cryptData);
         if (strcmp(hash, params->hash) == 0) {
-            printf("password = %s\n", password);
-            params->found = 1;
+            //printf("password = %s\n", password);
+            *params->found = 1;
             return NULL;
         }
-        if (params->found || strlen(password) > LENGTH_MAX)
+        if (*params->found || strlen(password) > LENGTH_MAX)
         {
             return NULL;
         }
