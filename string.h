@@ -1,7 +1,7 @@
 #ifndef STRING_H
 #define STRING_H
-#define ALPHABET "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ~!*"
-#define LENGTH_ALPHABET 65
+#define ALPHABET "ABC"
+#define LENGTH_ALPHABET 3
 
 char *jumpToAlphabet(unsigned long long int nb, char *result);
 

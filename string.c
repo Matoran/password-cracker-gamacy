@@ -82,6 +82,7 @@ char *jumpToAlphabetRelative(unsigned int jump, char *actualString) {
         jump = (positionAlphabet + jump) / LENGTH_ALPHABET;
         actualString[index] = ALPHABET[mod];
         index++;
+        actualString[index > length ? index : length] = '\0';
     }
     actualString[index > length ? index : length] = '\0';
 

@@ -8,6 +8,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "string.h"
 
 /*
@@ -22,14 +23,17 @@
  */
 int main(int argc, char const *argv[]) {
     char *string = malloc(sizeof(char) * 20);
+    char *string2 = malloc(sizeof(char) * 20);
 
-    for (unsigned int i = 0; i < 18; ++i) {
-        string[0] = 'C';
-        string[1] = 'C';
-        string[2] = 'C';
-        string[3] = 'C';
-        string[4] = '\0';
-        printf("%s %d\n", jumpToAlphabetRelative(i, string), i);
+    for (unsigned int i = 0; i < 10000; ++i) {
+        string[0] = 'A';
+        string[1] = '\0';
+        string2[0] = 'A';
+        string2[1] = '\0';
+        if(strcmp(jumpToAlphabetRelative(i, string), jumpToAlphabet(i+1, string2)) != 0){
+            printf("error");
+        }
+        //printf("%s %d %s\n", jumpToAlphabetRelative(i, string), i, jumpToAlphabet(i+1, string2));
     }
 
     return EXIT_SUCCESS;
