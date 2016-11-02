@@ -2,28 +2,24 @@
  * Authors: LOPES Marco, ISELI Cyril and RINGOT Gaëtan
  * Purpose: Management of threads.
  * Language:  C
- * Year : 2016-2017
+ * Date : 2 november 2016
  */
 
 #define _GNU_SOURCE
 
 #include <crypt.h>
 #include <pthread.h>
-#include <errno.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include "string.h"
-#include "thread.h"
 #include "threadprivate.h"
 
 /*
- * Function: createThreads
- * ----------------------------
- *   Generate a number of thread
+ *   Generate a number of threads
  *
- *   hash: hash to decode
- *   numberThreads: number of thread to decode.
+ *   hash: hash to bruteforce
+ *   numberThreads: number of threads to perform the bruteforce
  *
  */
 void createThreads(const char *hash, int numberThreads) {
@@ -33,10 +29,10 @@ void createThreads(const char *hash, int numberThreads) {
     for (int i = 0; i < numberThreads; i++) {
         paramsThread[i].idThread = i;
         paramsThread[i].numberThreads = numberThreads;
-        strncpy(paramsThread[i].hash, hash, 13);
-        paramsThread[i].hash[13] = '\0';
-        strncpy(paramsThread[i].salt, hash, 2);
-        paramsThread[i].salt[2] = '\0';
+        strncpy(paramsThread[i].hash, hash, LENGTH_HASH);
+        paramsThread[i].hash[LENGTH_HASH] = '\0';
+        strncpy(paramsThread[i].salt, hash, LENGTH_SALT);
+        paramsThread[i].salt[LENGTH_SALT] = '\0';
         paramsThread[i].found = &found;
         int code = pthread_create(&threads[i], NULL, thread, &paramsThread[i]);
         if (code != 0) {
@@ -44,22 +40,19 @@ void createThreads(const char *hash, int numberThreads) {
         }
     }
     for (int i = 0; i < numberThreads; i++) {
-        if (pthread_join(threads[i], NULL) != 0) 
-        {
+        if (pthread_join(threads[i], NULL) != 0) {
             perror("pthread_join");
         }
     }
-    if(!found)
+    if (!found)
         printf("No match found\n");
 }
 
 
 /*
- * Function: thread
- * ----------------------------
- *   Tasks of a single thread
+ *   Task of a single thread
  *
- *   paramsThread: 
+ *   paramsThread: struct which contain all information to perform the task
  *
  */
 void *thread(void *paramsThread) {
@@ -68,19 +61,17 @@ void *thread(void *paramsThread) {
     struct crypt_data cryptData;
     cryptData.initialized = 0;
     unsigned long long int i = params->idThread + 1;
-    while (1) {
-        char *password = jumpToAlphabet(i, params->password);
+    char *password = NULL;
+
+    do {
+        password = jumpToAlphabet(i, params->password);
         char *hash = crypt_r(password, params->salt, &cryptData);
         if (strcmp(hash, params->hash) == 0) {
-            //printf("password = %s\n", password);
+            printf("password = %s\n", password);
             *params->found = 1;
             return NULL;
         }
-        if (*params->found || strlen(password) > LENGTH_MAX)
-        {
-            return NULL;
-        }
         i += params->numberThreads;
-    }
-
+    } while (!*params->found && strlen(password) <= LENGTH_MAX);
+    return NULL;
 }

@@ -2,7 +2,7 @@
  * Authors: LOPES Marco, ISELI Cyril and RINGOT Gaëtan
  * Purpose: Password cracker.
  * Language:  C
- * Year : 2016-2017
+ * Date : 2 november 2016
  */
 
 #include <pthread.h>
@@ -11,19 +11,14 @@
 #include "thread.h"
 
 /*
- * Function: main
- * ----------------------------
- *   Print the password, and the time elapsed to find it
+ *   Call the function create threads and calc executed time
  *
  *   argc: argument counter
  *   argv: table of arguments
  *
- *   returns: EXIT_FAILURE or EXIT_SUCCESS.
+ *   returns: EXIT_FAILURE or EXIT_SUCCESS
  */
 int main(int argc, char const *argv[]) {
-    for (int i = 0; i < 10; ++i) {
-
-
     struct timespec start, finish;
     clock_gettime(CLOCK_MONOTONIC, &start);
 
@@ -40,10 +35,6 @@ int main(int argc, char const *argv[]) {
     clock_gettime(CLOCK_MONOTONIC, &finish);
     double elapsed = finish.tv_sec - start.tv_sec;
     elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
-    //printf("Executed time: %f s\n", elapsed);
-    printf("%f\n", elapsed);
-    }
-
-
+    printf("Executed time: %f s\n", elapsed);
     return EXIT_SUCCESS;
 }
