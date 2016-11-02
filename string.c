@@ -84,7 +84,6 @@ char *jumpToAlphabetRelative(unsigned int jump, char *actualString) {
         index++;
         actualString[index > length ? index : length] = '\0';
     }
-    actualString[index > length ? index : length] = '\0';
 
     return inverseString(actualString);
 }

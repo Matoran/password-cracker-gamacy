@@ -43,6 +43,7 @@ void error(char *msg) {
 void createThreads(const char *hash, int numberThreads) {
     pthread_t threads[numberThreads];
     paramsSt paramsThread[numberThreads];
+    int found = 0;
     for (int i = 0; i < numberThreads; i++) {
         paramsThread[i].idThread = i;
         paramsThread[i].numberThreads = numberThreads;
@@ -51,20 +52,18 @@ void createThreads(const char *hash, int numberThreads) {
         strncpy(paramsThread[i].salt, hash, 2);
         paramsThread[i].salt[2] = '\0';
         paramsThread[i].threads = threads;
+        paramsThread[i].found = &found;
         int code = pthread_create(&threads[i], NULL, thread, &paramsThread[i]);
         if (code != 0) {
             fprintf(stderr, "pthread_create failed!\n");
         }
     }
-    if (pthread_join(threads[0], NULL) != 0) {
-        perror("pthread_join");
-    }
-    for (int i = 1; i < numberThreads; i++) {
-        int code = pthread_cancel(threads[i]);
-        if (code == ESRCH)
-            printf("cancel: thread already finished!\n");
-        else if (code != 0)
-            error("cancel: pthread_cancel FAILED");
+    
+    for (int i = 0; i < numberThreads; i++) {
+        if (pthread_join(threads[i], NULL) != 0) 
+        {
+            perror("pthread_join");
+        }
     }
 }
 
@@ -78,10 +77,6 @@ void createThreads(const char *hash, int numberThreads) {
  *
  */
 void *thread(void *paramsThread) {
-    int old_state, old_type;
-    pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, &old_state);
-    pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, &old_type);
-
     paramsSt *params = (paramsSt *) paramsThread;
 
     struct crypt_data cryptData;
@@ -91,14 +86,12 @@ void *thread(void *paramsThread) {
         char *password = jumpToAlphabet(i, params->password);
         char *hash = crypt_r(password, params->salt, &cryptData);
         if (strcmp(hash, params->hash) == 0) {
-            if (params->idThread != 0) {
-                int code = pthread_cancel(params->threads[0]);
-                if (code == ESRCH)
-                    printf("cancel: thread already finished!\n");
-                else if (code != 0)
-                    error("cancel: pthread_cancel FAILED");
-            }
             printf("password = %s\n", password);
+            params->found = 1;
+            return NULL;
+        }
+        if (params->found || strlen(password) > LENGTH_MAX)
+        {
             return NULL;
         }
         i += params->numberThreads;

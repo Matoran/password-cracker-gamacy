@@ -9,6 +9,7 @@ typedef struct paramsSt {
     char salt[3];
     char password[20];
     pthread_t *threads;
+    int *found;
 } paramsSt;
 
 void *thread(void *paramsThread);
