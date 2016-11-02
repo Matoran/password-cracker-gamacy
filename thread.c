@@ -72,7 +72,7 @@ void *thread(void *paramsThread) {
         char *password = jumpToAlphabet(i, params->password);
         char *hash = crypt_r(password, params->salt, &cryptData);
         if (strcmp(hash, params->hash) == 0) {
-            //printf("password = %s\n", password);
+            printf("password = %s\n", password);
             *params->found = 1;
             return NULL;
         }

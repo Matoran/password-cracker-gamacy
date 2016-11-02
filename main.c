@@ -40,8 +40,7 @@ int main(int argc, char const *argv[]) {
     clock_gettime(CLOCK_MONOTONIC, &finish);
     double elapsed = finish.tv_sec - start.tv_sec;
     elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
-    //printf("Executed time: %f s\n", elapsed);
-    printf("%f\n", elapsed);
+    printf("Executed time: %f s\n", elapsed);
     }
 
 
